@@ -1,0 +1,66 @@
+import java.util.*;
+
+// Class to represent the graph
+class Graph {
+    // Adjacency list: Map a node (key) to a list of its neighbors (value)
+    private Map<Integer, List<Integer>> adj;
+
+    public Graph() {
+        adj = new HashMap<>();
+    }
+
+    // Method to add an edge to the graph (for an undirected graph)
+    public void addEdge(int source, int destination) {
+        // Ensure both nodes exist and add the edge in both directions
+        adj.computeIfAbsent(source, k -> new LinkedList<>()).add(destination);
+        adj.computeIfAbsent(destination, k -> new LinkedList<>()).add(source);
+    }
+
+    // Public method to start the DFS process
+    public void DFS(int startNode) {
+        System.out.println("Starting DFS from node " + startNode + "...");
+
+        // Set for keeping track of visited nodes
+        Set<Integer> visited = new HashSet<>();
+
+        // Start the recursive traversal
+        dfsRecursive(startNode, visited);
+        
+        System.out.println("\nDFS complete.");
+    }
+
+    // The core recursive method for DFS traversal
+    private void dfsRecursive(int currentNode, Set<Integer> visited) {
+        // 1. Visit the current node (Pre-order traversal point)
+        visited.add(currentNode);
+        System.out.print(currentNode + " ");
+
+        // 2. Explore neighbors
+        // Use 'getOrDefault' to handle nodes with no neighbors gracefully
+        for (int neighbor : adj.getOrDefault(currentNode, Collections.emptyList())) {
+            if (!visited.contains(neighbor)) {
+                // Recursively call DFS to go deep into the graph
+                dfsRecursive(neighbor, visited);
+            }
+        }
+        // 3. Backtrack (Post-order traversal point would be here)
+    }
+}
+
+// Main class to run the program
+public class DFSProgram {
+    public static void main(String[] args) {
+        Graph graph = new Graph();
+
+        // Build the graph: 0-1, 0-2, 1-2, 2-3
+        graph.addEdge(0, 1);
+        graph.addEdge(0, 2);
+        graph.addEdge(1, 2);
+        graph.addEdge(2, 3);
+
+        // Perform DFS starting from node 0
+        graph.DFS(0);
+        
+        // Potential output (depending on neighbor iteration order): 0 1 2 3
+    }
+}
