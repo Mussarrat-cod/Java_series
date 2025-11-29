@@ -1,0 +1,49 @@
+class Node {
+    int data;
+    Node next;
+
+    Node(int data) {
+        this.data = data;
+    }
+}
+
+public class LinkedListRevise {
+    Node head;
+
+    public void insert(int data) {
+        Node newNode = new Node(data);
+
+        if (head == null) {
+            head = newNode;
+            return;
+        }
+
+        Node curr = head;
+        while (curr.next != null) curr = curr.next;
+        curr.next = newNode;
+    }
+
+    public void delete(int key) {
+        if (head == null) return;
+
+        if (head.data == key) {
+            head = head.next;
+            return;
+        }
+
+        Node curr = head;
+        while (curr.next != null && curr.next.data != key) {
+            curr = curr.next;
+        }
+
+        if (curr.next != null) curr.next = curr.next.next;
+    }
+
+    public void print() {
+        Node curr = head;
+        while (curr != null) {
+            System.out.print(curr.data + " ");
+            curr = curr.next;
+        }
+    }
+}
