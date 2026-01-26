@@ -13,7 +13,8 @@ public class BFS {
     }
 
     // add an edge to the graph
-    void addEdge(int v, int w) {
+    void addEdge(int v, int w) 
+    {
         adj[v].add(w);
     }
 
